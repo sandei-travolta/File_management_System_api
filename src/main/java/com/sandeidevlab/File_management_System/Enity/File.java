@@ -4,6 +4,8 @@ public class File {
     private String tittle;
     private String description;
     private String url;
+    private String date;
+    private String user;
 
     public String getTittle() {
         return tittle;
@@ -27,5 +29,21 @@ public class File {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }
