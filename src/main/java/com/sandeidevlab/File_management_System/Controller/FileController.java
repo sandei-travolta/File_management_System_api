@@ -3,9 +3,7 @@ package com.sandeidevlab.File_management_System.Controller;
 import com.sandeidevlab.File_management_System.Enity.File;
 import com.sandeidevlab.File_management_System.Service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -18,5 +16,13 @@ public class FileController {
     @GetMapping("/Files")
     public List<File> getAllFiles() throws ExecutionException, InterruptedException {
         return fileService.getFileDetails();
+    }
+    @PutMapping("/Files")
+    public String update(@RequestBody File file) throws ExecutionException, InterruptedException {
+        return fileService.updateFile(file);
+    }
+    @DeleteMapping("/Files/{tittle}")
+    public String deleteProduct(@PathVariable String tittle) throws ExecutionException, InterruptedException {
+        return fileService.deleteFile(tittle);
     }
 }
