@@ -5,6 +5,7 @@ import com.sandeidevlab.File_management_System.Service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -21,8 +22,9 @@ public class FileController {
     public String update(@RequestBody File file) throws ExecutionException, InterruptedException {
         return fileService.updateFile(file);
     }
-    @DeleteMapping("/Files/{tittle}")
-    public String deleteProduct(@PathVariable String tittle) throws ExecutionException, InterruptedException {
-        return fileService.deleteFile(tittle);
+    @DeleteMapping("/Files/{name}")
+    public String deleteProduct(@PathVariable String name) throws ExecutionException, InterruptedException {
+        return FileService.deleteFileByTittle(name);
     }
+
 }

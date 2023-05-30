@@ -1,13 +1,13 @@
 package com.sandeidevlab.File_management_System.Service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.sandeidevlab.File_management_System.Enity.File;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,9 +37,23 @@ public class FileService {
         ApiFuture<WriteResult> collectionApiFuture= (ApiFuture<WriteResult>) dbFirestore.collection(COLLECTION_NAME).document(file.getTittle());
         return collectionApiFuture.get().getUpdateTime().toString();
     }
-    public String deleteFile(String tittle) throws ExecutionException, InterruptedException {
-        Firestore dbFirestore=FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionApiFuture= dbFirestore.collection(COLLECTION_NAME).document(tittle).delete();
-        return "Document with product Id"+tittle+"Has been deleted";
+
+    public static String deleteFileByTittle(String tittle) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        CollectionReference collectionRef = dbFirestore.collection(COLLECTION_NAME);
+
+        Query query = collectionRef.whereEqualTo("tittle", tittle);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        if (!documents.isEmpty()) {
+            // Delete the document
+            documents.get(0).getReference().delete();
+            return "Document deleted";
+        } else {
+            // Document with the provided tittle does not exist
+            return "Document not found";
+        }
     }
+
 }
