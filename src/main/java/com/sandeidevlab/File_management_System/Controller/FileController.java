@@ -22,6 +22,10 @@ public class FileController {
     public String update(@RequestBody File file) throws ExecutionException, InterruptedException {
         return fileService.updateFile(file);
     }
+    @GetMapping("/Files/{category}")
+    public List<File> getProductsByCategory(@PathVariable String category) throws ExecutionException, InterruptedException {
+        return FileService.getProductsByCategory(category);
+    }
     @DeleteMapping("/Files/{name}")
     public String deleteProduct(@PathVariable String name) throws ExecutionException, InterruptedException {
         return FileService.deleteFileByTittle(name);

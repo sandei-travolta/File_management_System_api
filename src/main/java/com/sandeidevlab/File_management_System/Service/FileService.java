@@ -37,6 +37,24 @@ public class FileService {
         ApiFuture<WriteResult> collectionApiFuture= (ApiFuture<WriteResult>) dbFirestore.collection(COLLECTION_NAME).document(file.getTittle());
         return collectionApiFuture.get().getUpdateTime().toString();
     }
+    public static List<File> getProductsByCategory(String category) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        CollectionReference collectionRef = dbFirestore.collection(COLLECTION_NAME);
+
+        Query query = collectionRef.whereEqualTo("folder", category);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        List<File> productList = new ArrayList<>();
+
+        for (QueryDocumentSnapshot document : documents) {
+            File file = document.toObject(File.class);
+            productList.add(file);
+        }
+
+        return productList;
+    }
+
 
     public static String deleteFileByTittle(String tittle) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

@@ -7,6 +7,16 @@ public class File {
     private String date;
     private String user;
 
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
+    private String folder;
+
     public String getTittle() {
         return tittle;
     }
